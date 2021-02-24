@@ -1,0 +1,6 @@
+virtualenv -p /usr/bin/python3.7 TRA
+
+cd ~/TRA
+
+source  /usr/bin/TRA/bin/activate
+
