@@ -16,6 +16,9 @@ python -m pip install pip==19.3</br>
 !pip install djangorestframework</br>
 !pip install django-cors-headers</br>
 
+python manage.py makemigrations
+python manage.py migrate
+
 
 python manage.py runserver 0.0.0.0:8788</br>
 
