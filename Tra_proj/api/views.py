@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from api.models import uploadfile, graphfile,graphdata
-from api.serializers import uploadfileSerializer, graphfileSerializer,graphdataSerializer
+from api.models import uploadfile, graphfile,graphdata, fileinfo
+from api.serializers import uploadfileSerializer, graphfileSerializer,graphdataSerializer,fileinfoSerializer
 from api import serializers
 from rest_framework.decorators import action
 from rest_framework import viewsets
@@ -46,6 +46,12 @@ class uploadfileViewSet(viewsets.ModelViewSet):
 class graphfileViewSet(viewsets.ModelViewSet):
     queryset = graphfile.objects.all()
     serializer_class = graphfileSerializer
+
+
+class fileinfoViewSet(viewsets.ModelViewSet):
+    queryset = fileinfo.objects.all()
+    serializer_class = fileinfoSerializer
+
 
 class getjsonfileAPIView(APIView):
     def get(self, request, format=None):
@@ -436,9 +442,14 @@ class uploadfile2APIView(APIView):
             else:
                  return Response({'msg':'graph gen error'})
 
+            serializer2 = fileinfoSerializer(data=fileinfo)     
+            if serializer2.is_valid(raise_exception=True):
+                comment2 = serializer2.save()
+            else:
+                 return Response({'msg':'fileinfo save error'})
 
 
-            return Response({'msg':serializer1.data,'graphid':comment.ID,'fileinfo':fileinfo})
+            return Response({'msg':serializer1.data,'graphid':comment.ID,'fileinfoid':comment2.ID})
         else:
             return Response(serializer1.error)
 
@@ -555,7 +566,15 @@ class uploadfileAPIView(APIView):
             else:
                  return Response({'msg':'graph gen error'})
 
-            return Response({'msg':serializer1.data,'graphid':comment.ID,'fileinfo':fileinfo})
+
+            serializer2 = fileinfoSerializer(data=fileinfo)     
+            if serializer2.is_valid(raise_exception=True):
+                comment2 = serializer2.save()
+            else:
+                 return Response({'msg':'fileinfo save error'})
+
+
+            return Response({'msg':serializer1.data,'graphid':comment.ID,'fileinfoid':comment2.ID})
         else:
             return Response(serializer1.error)
 

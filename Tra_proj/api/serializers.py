@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import uploadfile, graphfile, graphdata
+from api.models import uploadfile, graphfile, graphdata, fileinfo
 
 
 
@@ -18,4 +18,9 @@ class graphfileSerializer(serializers.ModelSerializer):
 class graphdataSerializer(serializers.ModelSerializer):
     class Meta:
         model = graphdata
+        fields = '__all__'
+
+class fileinfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = fileinfo
         fields = '__all__'

@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework.routers import DefaultRouter
 from api import views
-from api.views import uploadfileAPIView,scanfileAPIView,graphfileViewSet,getjsonfileAPIView,getresultAPIView,uploadfile2APIView
+from api.views import uploadfileAPIView,scanfileAPIView,graphfileViewSet,getjsonfileAPIView,getresultAPIView,uploadfile2APIView,fileinfoViewSet
 
 
 router = DefaultRouter()
 router.register(r'files', views.uploadfileViewSet)
 router.register(r'graphs', views.graphfileViewSet)
+router.register(r'fileinfo', views.fileinfoViewSet)
 
 
 urlpatterns = [

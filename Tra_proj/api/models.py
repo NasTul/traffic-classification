@@ -23,3 +23,14 @@ class graphdata(models.Model):
     graphname = models.CharField(max_length=256)
     class Meta:
         db_table = "graphdata"	
+
+
+class fileinfo(models.Model):
+    ID = models.AutoField(primary_key=True)
+    node_numbers =models.CharField(max_length=10)
+    edges_numbers = models.CharField(max_length=10)
+    anomalous_ndoes = models.CharField(max_length=10)
+    anomalous_edges = models.CharField(max_length=10)
+    
+    class Meta:
+        db_table = "fileinfo"  
