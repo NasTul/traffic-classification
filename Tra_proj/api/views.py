@@ -84,16 +84,27 @@ class getresultAPIView(APIView):
             edge_index1=[]
             edge_y=[]
             y_dic = {}
+            is_labeled=False
             with open(uploadfile_name,'r') as csvfile:
                 reader = csv.reader(csvfile)
                 rows= []
                 for index, row in enumerate(reader) :
                     edge_index0.append(int(row[0]))
                     edge_index1.append(int(row[1]))
-                    edge_y.append(int(row[2]))
+
+                    
+
                     y_dic[int(row[0])]=0
-                    if int(row[2])==1:
-                        y_dic[int(row[0])]=1
+                    if len(row)==3:
+                        is_labeled = True
+                        edge_y.append(int(row[2]))
+                        if int(row[2])==1:
+                            y_dic[int(row[0])]=1
+                    else:
+                        edge_y.append(0)
+                        y_dic[int(row[0])]=0
+                        y_dic[0]=1
+
                     
             y = []
             for i in y_dic:
@@ -298,7 +309,14 @@ class getresultAPIView(APIView):
 
         except Exception as e:
             return Response({'msg': traceback.format_exc()})  
-
+        if not is_labeled:
+            result_dict['acc']='-'
+            result_dict['fpr']='-'
+            result_dict['fnr']='-'
+            result_dict['rec']='-'
+            result_dict['prc']='-'
+            result_dict['f1']='-'
+            result_dict['auroc']='-'
         
 
         return Response({'result_dict':result_dict,'label_graphid':comment.ID,'unlabel_graphid':comment1.ID}) 
@@ -329,6 +347,7 @@ class uploadfile2APIView(APIView):
     def post(self, request, format=None):
         data = request.data
         fileinfo={}
+        is_labeled = False
         serializer1 = uploadfileSerializer(data=data)
         if serializer1.is_valid(raise_exception=True):
             comment1 = serializer1.save()
@@ -346,15 +365,22 @@ class uploadfile2APIView(APIView):
                     sour_ip.append(int(row[0]))
                     dest_ip.append(int(row[1]))
                     label.append(0)
-                    if int(row[2]) == 1:
-                        anomalous_edges+=1
-                        anomalous_nodes[int(row[0])]=1
+                    if len(row) == 3:
+                        is_labeled = True
+                        if int(row[2]) == 1:
+                            anomalous_edges+=1
+                            anomalous_nodes[int(row[0])]=1
+
 
 
             fileinfo['node_numbers'] = str(sour_ip[-1])
             fileinfo['edges_numbers'] = len(sour_ip)- sour_ip[-1]
             fileinfo['anomalous_ndoes'] = len(anomalous_nodes)
             fileinfo['anomalous_edges'] = anomalous_edges
+
+            if not is_labeled:
+                fileinfo['anomalous_ndoes'] = '-'
+                fileinfo['anomalous_edges'] = '-'
 
 
             temp_edge_index0 = sour_ip[:10000]
@@ -510,7 +536,8 @@ class uploadfileAPIView(APIView):
             sour_ip=[]
             dest_ip=[]   
             anomalous_edges = 0  
-            anomalous_nodes = {}       
+            anomalous_nodes = {}     
+            is_labeled = False  
             with open(uploadfile_name,'r') as csvfile:
                 reader = csv.reader(csvfile)
                 rows= []
@@ -518,9 +545,11 @@ class uploadfileAPIView(APIView):
                     sour_ip.append(int(row[0]))
                     dest_ip.append(int(row[1]))
                     label.append(0)
-                    if int(row[2])==1:
-                        anomalous_edges+=1
-                        anomalous_nodes[int(row[0])] = 1
+                    if len(row) == 3:
+                        is_labeled=True
+                        if int(row[2])==1:
+                            anomalous_edges+=1
+                            anomalous_nodes[int(row[0])] = 1
 
             c = {"source":sour_ip,"destin":dest_ip}
 
@@ -529,6 +558,11 @@ class uploadfileAPIView(APIView):
             fileinfo['edges_numbers'] = len(sour_ip)- sour_ip[-1]
             fileinfo['anomalous_ndoes'] = len(anomalous_nodes)
             fileinfo['anomalous_edges'] = anomalous_edges
+
+            if not is_labeled:
+                fileinfo['anomalous_ndoes'] = '-'
+                fileinfo['anomalous_edges'] = '-'
+
 
 
             df = DataFrame(c)
@@ -612,17 +646,33 @@ class scanfileAPIView(APIView):
             edge_index1=[]
             edge_y=[]
             y_dic = {}
+            add_one = 0
+            is_labeled = False
             with open(uploadfile_name,'r') as csvfile:
                 reader = csv.reader(csvfile)
                 rows= []
                 for index, row in enumerate(reader) :
                     edge_index0.append(int(row[0]))
                     edge_index1.append(int(row[1]))
-                    edge_y.append(int(row[2]))
+
                     y_dic[int(row[0])]=0
-                    if int(row[2])==1:
-                        y_dic[int(row[0])]=1
-                    
+
+                    if len(row) == 3:
+                        is_labeled=True
+                        edge_y.append(int(row[2]))
+                        if int(row[2])==1:
+                            y_dic[int(row[0])]=1
+                    else:
+                        if add_one < 5 :
+                            edge_y.append(1)
+                            y_dic[int(row[0])]=1
+                            add_one+=1
+                        else:
+                            edge_y.append(0)
+                            y_dic[int(row[0])]=0
+                        y_dic[0]=1
+                        
+
             y = []
             for i in y_dic:
                 y.append(y_dic[i])
@@ -797,6 +847,16 @@ class scanfileAPIView(APIView):
 
         except Exception as e:
             return Response({'msg': traceback.format_exc()})  
+
+        if not is_labeled:
+            result_dict['acc']='-'
+            result_dict['fpr']='-'
+            result_dict['fnr']='-'
+            result_dict['rec']='-'
+            result_dict['prc']='-'
+            result_dict['f1']='-'
+            result_dict['auroc']='-'
+
 
 
         return Response({'result_dict':result_dict,'label_graphid':comment.ID, 'unlabel_graphid':comment1.ID}) 
