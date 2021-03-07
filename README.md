@@ -7,7 +7,7 @@ python -m pip install pip==19.3</br>
 !pip install torch-cluster==latest+cu101 -f https://pytorch-geometric.com/whl/torch-1.4.0.html</br>
 !pip install torch-spline-conv==latest+cu101 -f https://pytorch-geometric.com/whl/torch-1.4.0.html</br>
 !pip install torch-geometric==1.4.3</br>
-!pip install pyvis</br>
+!pip install pyvis</br>  
 
 # in Tra_proj/botnet_detection/
 !pip install deepdish </br>
