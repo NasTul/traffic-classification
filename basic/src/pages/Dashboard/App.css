@@ -1,0 +1,84 @@
+.container {
+  min-height:120vh !important;
+}
+
+.header {
+  position: fixed;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 !important;
+}
+
+.footer {
+  text-align: center;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px 24px 16px 16px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.nodeinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.nodetitle {
+  margin-bottom: 16px;
+
+  font-size: 16px;
+  font-weight: bold;
+}
+.noderesult {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+  height: 110px;
+}
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.title {
+  margin-bottom: 16px;
+
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+  height: 110px;
+}
+
+.reloadnode {
+  font-size: 32px;
+}
+
+
+.reload {
+  font-size: 32px;
+}
