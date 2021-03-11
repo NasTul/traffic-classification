@@ -30,8 +30,8 @@ pip install djangorestframework</br>
 pip install django-cors-headers</br>
 
 
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations</br>
+python manage.py migrate</br>
 
 
 python manage.py runserver 0.0.0.0:8788</br>
