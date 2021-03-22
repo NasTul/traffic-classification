@@ -1,6 +1,6 @@
 
 # traffic-classification
-python3.x</br>
+python3.x</br> 
 conda install pytorch==1.4.0 torchvision==0.5.0 cudatoolkit=10.1 -c pytorch
 </br>
 python -m pip install pip==19.3</br>
