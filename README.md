@@ -1,6 +1,6 @@
-python3.x
 
 # traffic-classification
+python3.x</br> 
 conda install pytorch==1.4.0 torchvision==0.5.0 cudatoolkit=10.1 -c pytorch
 </br>
 python -m pip install pip==19.3</br>
@@ -30,8 +30,8 @@ pip install djangorestframework</br>
 pip install django-cors-headers</br>
 
 
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations</br>
+python manage.py migrate</br>
 
 
 python manage.py runserver 0.0.0.0:8788</br>
